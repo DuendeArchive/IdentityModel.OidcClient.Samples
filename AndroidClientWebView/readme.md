@@ -3,11 +3,10 @@
 
 Updated 2016-12-07
 
-Tested on Android E
+Tested on Android Emulator
 * 7.1.1
 * 5.0
 * 4.4
-* 
 
 
 # Identity Server Configuraion
