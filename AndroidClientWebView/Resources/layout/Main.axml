@@ -3,14 +3,20 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
-    <Button
-        android:id="@+id/MyButton"
+  <Button
+    android:id="@+id/btn_login"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:text="LOGIN" />
+
+  <Button
+        android:id="@+id/btn_call_api"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/Hello" />
+        android:text="CALL API" />
     <EditText
         android:inputType="textMultiLine"
         android:layout_width="match_parent"
         android:layout_height="392.0dp"
-        android:id="@+id/editText1" />
+        android:id="@+id/txtResult" />
 </LinearLayout>
