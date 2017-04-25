@@ -10,7 +10,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		global.json = global.json
 	EndProjectSection
 EndProject
-Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "NetCoreConsoleClient", "src\NetCoreConsoleClient\NetCoreConsoleClient.xproj", "{ABD384A3-51DA-4500-95BE-33CFB8E10EA5}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NetCoreConsoleClient", "src\NetCoreConsoleClient\NetCoreConsoleClient.csproj", "{DD2654F4-69BE-43DA-86C1-9243E4BD30F1}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -18,15 +18,14 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{ABD384A3-51DA-4500-95BE-33CFB8E10EA5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{ABD384A3-51DA-4500-95BE-33CFB8E10EA5}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{ABD384A3-51DA-4500-95BE-33CFB8E10EA5}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{ABD384A3-51DA-4500-95BE-33CFB8E10EA5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DD2654F4-69BE-43DA-86C1-9243E4BD30F1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DD2654F4-69BE-43DA-86C1-9243E4BD30F1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DD2654F4-69BE-43DA-86C1-9243E4BD30F1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DD2654F4-69BE-43DA-86C1-9243E4BD30F1}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
-		{ABD384A3-51DA-4500-95BE-33CFB8E10EA5} = {8AD8E355-EB58-4318-A56B-87C4E39D09E5}
 	EndGlobalSection
 EndGlobal
