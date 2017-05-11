@@ -15,7 +15,6 @@ namespace AndroidClient
     [Activity(Label = "AndroidClient", MainLauncher = true, Icon = "@drawable/icon")]
     public class MainActivity : Activity
     {
-        int count = 1;
         private HttpClient _apiClient;
         private OidcClient _client;
 
@@ -25,54 +24,75 @@ namespace AndroidClient
             SetContentView(Resource.Layout.Main);
 
 
+            Button callApibut = FindViewById<Button>(Resource.Id.btn_call_api);
+            callApibut.Click += callApi_Click;
+
+
+            Button login_btn = FindViewById<Button>(Resource.Id.btn_login);
+            login_btn.Click += Login_Click;
+
+        }
+
+
+        private async void Login_Click(object sender, EventArgs e)
+        {
+            var txtResult = FindViewById<EditText>(Resource.Id.txtResult);
+            txtResult.Text = "Opening Browser .....";
+
             var authority = "https://demo.identityserver.io";
 
             var options = new OidcClientOptions(
-                authority,
-                "native",
-                "secret",
-                "openid profile api offline_access",
-                "io.identitymodel.native://callback",
-                new AuthWebView(this));
+                 authority: authority,
+                 clientId: "native",
+                 clientSecret: "secret",
+                 scope: "openid profile api offline_access",
+                 redirectUri: "io.identitymodel.native://callback",
+                 webView: new AuthWebView(this));
 
             _client = new OidcClient(options);
 
             var result = await _client.LoginAsync();
 
 
-            var sb = new StringBuilder(128);
-            foreach (var claim in result.Claims)
+            if (!string.IsNullOrEmpty(result.Error))
             {
-                sb.Append(string.Format("{0}: {1}\n", claim.Type, claim.Value));
+                txtResult.Text = result.Error;
+                return;
             }
 
-            sb.Append(string.Format("\n{0}: {1}\n", "refresh token", result.RefreshToken));
-            sb.Append(string.Format("\n{0}: {1}\n", "access token", result.AccessToken));
 
-            var editText1 = FindViewById<EditText>(Resource.Id.editText1);
-            editText1.Text = sb.ToString();
+
+            var sb = new StringBuilder();
+            foreach (var claim in result.Claims)
+            {
+                sb.Append($"{claim.Type}: {claim.Value}\n");
+            }
+
+            sb.Append($"\n refresh token: {result.RefreshToken}\n");
+            sb.Append($"\n access token: {result.AccessToken}\n");
+
+
+            txtResult.Text = sb.ToString();
+
             _apiClient = new HttpClient(result.Handler);
             _apiClient.BaseAddress = new Uri("https://demo.identityserver.io/api/");
 
-
-            Button button = FindViewById<Button>(Resource.Id.MyButton);
-
-            button.Click += Button_Click;
         }
 
-        private async void Button_Click(object sender, EventArgs e)
+        private async void callApi_Click(object sender, EventArgs e)
         {
-            var editText1 = FindViewById<EditText>(Resource.Id.editText1);
+            var txtResult = FindViewById<EditText>(Resource.Id.txtResult);
+            txtResult.Text = "Calling API.....";
 
             var result = await _apiClient.GetAsync("test");
             if (!result.IsSuccessStatusCode)
             {
-                editText1.Text = result.ReasonPhrase;
+                txtResult.Text = result.ReasonPhrase;
                 return;
             }
 
             var content = await result.Content.ReadAsStringAsync();
-            editText1.Text = JArray.Parse(content).ToString();
+            txtResult.Text = JArray.Parse(content).ToString();
         }
     }
 }
