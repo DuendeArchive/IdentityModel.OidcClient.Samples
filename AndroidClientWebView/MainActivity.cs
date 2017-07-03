@@ -29,9 +29,9 @@ namespace AndroidClient
 
             var options = new OidcClientOptions(
                 authority,
-                "native",
-                "secret",
-                "openid profile api offline_access",
+                "native.hybrid",
+                "xoxo",
+                "openid profile api",
                 "io.identitymodel.native://callback",
                 new AuthWebView(this));
 
@@ -51,8 +51,9 @@ namespace AndroidClient
 
             var editText1 = FindViewById<EditText>(Resource.Id.editText1);
             editText1.Text = sb.ToString();
-            _apiClient = new HttpClient(result.Handler);
-            _apiClient.BaseAddress = new Uri("https://demo.identityserver.io/api/");
+            _apiClient = new HttpClient();
+            _apiClient.SetBearerToken(result.AccessToken);
+            _apiClient.BaseAddress = new Uri("https://api.identityserver.io/");
 
 
             Button button = FindViewById<Button>(Resource.Id.MyButton);
@@ -64,7 +65,7 @@ namespace AndroidClient
         {
             var editText1 = FindViewById<EditText>(Resource.Id.editText1);
 
-            var result = await _apiClient.GetAsync("test");
+            var result = await _apiClient.GetAsync("identity");
             if (!result.IsSuccessStatusCode)
             {
                 editText1.Text = result.ReasonPhrase;
