@@ -115,10 +115,10 @@
       <HintPath>..\packages\System.IdentityModel.Tokens.Jwt.5.1.5\lib\netstandard1.4\System.IdentityModel.Tokens.Jwt.dll</HintPath>
     </Reference>
     <Reference Include="IdentityModel">
-      <HintPath>..\packages\IdentityModel.2.16.1\lib\netstandard2.0\IdentityModel.dll</HintPath>
+      <HintPath>..\packages\IdentityModel.3.0.0\lib\netstandard2.0\IdentityModel.dll</HintPath>
     </Reference>
     <Reference Include="IdentityModel.OidcClient">
-      <HintPath>..\packages\IdentityModel.OidcClient.2.4.0-preview1\lib\netstandard2.0\IdentityModel.OidcClient.dll</HintPath>
+      <HintPath>..\packages\IdentityModel.OidcClient.2.4.0\lib\netstandard2.0\IdentityModel.OidcClient.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
