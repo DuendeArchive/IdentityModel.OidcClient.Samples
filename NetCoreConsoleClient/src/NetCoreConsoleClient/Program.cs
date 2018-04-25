@@ -26,10 +26,10 @@ namespace ConsoleClientWithBrowser
             Console.WriteLine("Press any key to sign in...");
             Console.ReadKey();
 
-            await SignIn();
+            await Login();
         }
 
-        private static async Task SignIn()
+        private static async Task Login()
         {
             // create a redirect URI using an available port on the loopback address.
             // requires the OP to allow random ports on 127.0.0.1 - otherwise set a static port
@@ -57,7 +57,7 @@ namespace ConsoleClientWithBrowser
             options.LoggerFactory.AddSerilog(serilog);
 
             _oidcClient = new OidcClient(options);
-            var result = await _oidcClient.LoginAsync();
+            var result = await _oidcClient.LoginAsync(new LoginRequest());
 
             ShowResult(result);
             await NextSteps(result);
