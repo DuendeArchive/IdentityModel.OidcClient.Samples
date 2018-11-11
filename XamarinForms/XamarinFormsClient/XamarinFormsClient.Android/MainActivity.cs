@@ -9,6 +9,7 @@ using Android.OS;
 using XamarinFormsClient.Core;
 using Xamarin.Forms;
 using IdentityModel.OidcClient.Browser;
+using Plugin.CurrentActivity;
 
 namespace XamarinFormsClient.Droid
 {
@@ -19,6 +20,7 @@ namespace XamarinFormsClient.Droid
     {
         protected override void OnCreate(Bundle bundle)
         {
+            CrossCurrentActivity.Current.Init(this, bundle);
             DependencyService.Register<ChromeCustomTabsBrowser>();
 
             TabLayoutResource = Resource.Layout.Tabbar;
@@ -31,4 +33,3 @@ namespace XamarinFormsClient.Droid
         }
     }
 }
-
