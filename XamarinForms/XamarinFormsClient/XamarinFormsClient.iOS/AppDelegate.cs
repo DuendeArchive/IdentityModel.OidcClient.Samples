@@ -25,7 +25,7 @@ namespace XamarinFormsClient.iOS
         public override bool FinishedLaunching(UIApplication app, NSDictionary options)
         {
             global::Xamarin.Forms.Forms.Init();
-            DependencyService.Register<SFAuthenticationSessionBrowser>();
+            DependencyService.Register<ASWebAuthenticationSessionBrowser>();
 
             LoadApplication(new App());
 
