@@ -52,47 +52,40 @@ namespace WinFormsSample
 
                 browser.NavigateError += (o, e) =>
                 {
-                    e.Cancel = true;
-
-                    if (e.Url.StartsWith(options.EndUrl))
-                    {
-                        result.ResultType = BrowserResultType.Success;
-                        result.Response = e.Url;
-                    }
-                    else
-                    {
-                        result.ResultType = BrowserResultType.HttpError;
-                        result.Error = e.StatusCode.ToString();
-                    }
-
-                    signal.Release();
-                };
-
-                browser.BeforeNavigate2 += (o, e) =>
-                {
                     if (e.Url.StartsWith(options.EndUrl))
                     {
                         e.Cancel = true;
-
                         result.ResultType = BrowserResultType.Success;
                         result.Response = e.Url;
                         signal.Release();
                     }
                 };
 
-                form.Controls.Add(browser);
-                browser.Show();
+                browser.DocumentCompleted += (o, e) =>
+                {
+                    if (e.Url.AbsoluteUri.StartsWith(options.EndUrl))
+                    {
+                        result.ResultType = BrowserResultType.Success;
+                        result.Response = e.Url.AbsoluteUri;
+                        signal.Release();
+                    }
+                };
 
-                System.Threading.Timer timer = null;
+                try
+                {
+                    form.Controls.Add(browser);
+                    browser.Show();
 
-                form.Show();
-                browser.Navigate(options.StartUrl);
+                    form.Show();
+                    browser.Navigate(options.StartUrl);
 
-                await signal.WaitAsync();
-                if (timer != null) timer.Change(Timeout.Infinite, Timeout.Infinite);
-
-                form.Hide();
-                browser.Hide();
+                    await signal.WaitAsync();
+                }
+                finally
+                {
+                    form.Hide();
+                    browser.Hide();
+                }
 
                 return result;
             }
