@@ -102,7 +102,7 @@ namespace ConsoleClientWithBrowser
                 if (key.Key == ConsoleKey.R)
                 {
                     var refreshResult = await _oidcClient.RefreshTokenAsync(currentRefreshToken);
-                    if (result.IsError)
+                    if (refreshResult.IsError)
                     {
                         Console.WriteLine($"Error: {refreshResult.Error}");
                     }
@@ -112,8 +112,8 @@ namespace ConsoleClientWithBrowser
                         currentAccessToken = refreshResult.AccessToken;
 
                         Console.WriteLine("\n\n");
-                        Console.WriteLine($"access token:   {result.AccessToken}");
-                        Console.WriteLine($"refresh token:  {result?.RefreshToken ?? "none"}");
+                        Console.WriteLine($"access token:   {refreshResult.AccessToken}");
+                        Console.WriteLine($"refresh token:  {refreshResult?.RefreshToken ?? "none"}");
                     }
                 }
             }
