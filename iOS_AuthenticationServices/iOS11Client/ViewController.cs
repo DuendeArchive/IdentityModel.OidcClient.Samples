@@ -4,7 +4,6 @@ using System.Text;
 using IdentityModel.Client;
 using IdentityModel.OidcClient;
 using Microsoft.IdentityModel.Logging;
-using Newtonsoft.Json.Linq;
 using UIKit;
 
 namespace iOS11Client
@@ -113,7 +112,7 @@ namespace iOS11Client
                 }
 
                 var content = await response.Content.ReadAsStringAsync();
-                OutputText.Text = JArray.Parse(content).ToString();
+                //OutputText.Text = JArray.Parse(content).ToString();
             }
         }
 
