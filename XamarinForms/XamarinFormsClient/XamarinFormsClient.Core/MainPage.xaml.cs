@@ -1,26 +1,27 @@
 ﻿using IdentityModel.OidcClient;
 using IdentityModel.OidcClient.Browser;
-using Newtonsoft.Json.Linq;
 using System;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text;
+using System.Text.Json;
 
 using Xamarin.Forms;
+using Xamarin.Forms.Xaml;
 
 namespace XamarinFormsClient.Core
 {
-    //[XamlCompilation(XamlCompilationOptions.Skip)]
+    [XamlCompilation(XamlCompilationOptions.Skip)]
     public partial class MainPage : ContentPage
     {
         OidcClient _client;
         LoginResult _result;
 
-        Lazy<HttpClient> _apiClient = new Lazy<HttpClient>(()=>new HttpClient()); 
+        Lazy<HttpClient> _apiClient = new Lazy<HttpClient>(() => new HttpClient());
 
-        public MainPage ()
-		{
-			InitializeComponent ();
+        public MainPage()
+        {
+            InitializeComponent();
 
             Login.Clicked += Login_Clicked;
             CallApi.Clicked += CallApi_Clicked;
@@ -33,9 +34,7 @@ namespace XamarinFormsClient.Core
                 ClientId = "interactive.public",
                 Scope = "openid profile email api offline_access",
                 RedirectUri = "xamarinformsclients://callback",
-                Browser = browser,
-
-                ResponseMode = OidcClientOptions.AuthorizeResponseMode.Redirect
+                Browser = browser
             };
 
             _client = new OidcClient(options);
@@ -68,12 +67,12 @@ namespace XamarinFormsClient.Core
 
         private async void CallApi_Clicked(object sender, EventArgs e)
         {
-            
+
             var result = await _apiClient.Value.GetAsync("api/test");
 
             if (result.IsSuccessStatusCode)
             {
-                OutputText.Text = JArray.Parse(await result.Content.ReadAsStringAsync()).ToString();
+                OutputText.Text = JsonDocument.Parse(await result.Content.ReadAsStringAsync()).RootElement.GetRawText();
             }
             else
             {
