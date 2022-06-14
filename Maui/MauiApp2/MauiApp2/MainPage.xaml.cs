@@ -4,57 +4,45 @@ using IdentityModel.OidcClient;
 
 namespace MauiApp2;
 
-public partial class MainPage : ContentPage
+public partial class MainPage
 {
-    private OidcClientOptions _options = new()
-    {
-        Authority = "https://demo.duendesoftware.com",
+    private readonly OidcClient _client;
 
-        ClientId = "interactive.public",
-        Scope = "openid profile api",
-        RedirectUri = "myapp://callback",
-
-        Browser = new MauiAuthenticationBrowser()
-    };
-
-    private OidcClient _client;
-    
-    public MainPage()
+    public MainPage(OidcClient client)
     {
         InitializeComponent();
-        _client = new OidcClient(_options);
+        _client = client;
     }
 
     private async void OnCounterClicked(object sender, EventArgs e)
     {
-            var result = await _client.LoginAsync();
+        var result = await _client.LoginAsync();
 
-            if (result.IsError)
-            {
-                editor.Text = result.Error;
-                return;
-            }
+        if (result.IsError)
+        {
+            editor.Text = result.Error;
+            return;
+        }
 
-            var sb = new StringBuilder(128);
+        var sb = new StringBuilder(128);
 
-            sb.AppendLine("claims:");
-            foreach (var claim in result.User.Claims)
-            {
-                sb.AppendLine($"{claim.Type}: {claim.Value}");
-            }
+        sb.AppendLine("claims:");
+        foreach (var claim in result.User.Claims)
+        {
+            sb.AppendLine($"{claim.Type}: {claim.Value}");
+        }
 
+        sb.AppendLine();
+        sb.AppendLine("access token:");
+        sb.AppendLine(result.AccessToken);
+
+        if (!string.IsNullOrWhiteSpace(result.RefreshToken))
+        {
             sb.AppendLine();
             sb.AppendLine("access token:");
             sb.AppendLine(result.AccessToken);
+        }
 
-            if (!string.IsNullOrWhiteSpace(result.RefreshToken))
-            {
-                sb.AppendLine();
-                sb.AppendLine("access token:");
-                sb.AppendLine(result.AccessToken);    
-            }
-
-            editor.Text = sb.ToString();
-
+        editor.Text = sb.ToString();
     }
 }
