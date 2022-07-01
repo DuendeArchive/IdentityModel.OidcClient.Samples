@@ -38,7 +38,7 @@ namespace ConsoleSystemBrowser
 
             var options = new OidcClientOptions
             {
-                Authority = "https://demo.identityserver.io",
+                Authority = "https://demo.duendesoftware.com",
                 ClientId = "interactive.public",
                 Scope = "openid profile api",
                 RedirectUri = redirectUri,
@@ -63,7 +63,7 @@ namespace ConsoleSystemBrowser
 
             // sends an HTTP response to the browser.
             var response = context.Response;
-            string responseString = string.Format("<html><head><meta http-equiv='refresh' content='10;url=https://demo.identityserver.io'></head><body>Please return to the app.</body></html>");
+            string responseString = string.Format("<html><head><meta http-equiv='refresh' content='10;url=https://demo.duendesoftware.com'></head><body>Please return to the app.</body></html>");
             var buffer = Encoding.UTF8.GetBytes(responseString);
             response.ContentLength64 = buffer.Length;
             var responseOutput = response.OutputStream;
