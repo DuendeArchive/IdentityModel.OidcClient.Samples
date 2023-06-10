@@ -79,7 +79,7 @@ namespace WindowsConsoleSystemBrowser
             var callbackManager = new CallbackManager(state.State);
 
             // open system browser to start authentication
-            Process.Start(state.StartUrl);
+            Process.Start(new ProcessStartInfo(state.StartUrl) { UseShellExecute = true });
 
             Console.WriteLine("Running callback manager");
             var response = await callbackManager.RunServer();

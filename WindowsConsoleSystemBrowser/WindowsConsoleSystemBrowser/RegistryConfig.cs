@@ -32,7 +32,8 @@ namespace WindowsConsoleSystemBrowser
 
         const string CommandKeyValueName = "";
         const string CommandKeyValueFormat = "\"{0}\" \"%1\"";
-        static string CommandKeyValueValue => String.Format(CommandKeyValueFormat, Assembly.GetExecutingAssembly().Location);
+        static string CommandKeyValueValue => String.Format(
+            CommandKeyValueFormat, Assembly.GetExecutingAssembly().Location.Replace(".dll", ".exe"));
 
         const string UrlProtocolValueName = "URL Protocol";
         const string UrlProtocolValueValue = "";
