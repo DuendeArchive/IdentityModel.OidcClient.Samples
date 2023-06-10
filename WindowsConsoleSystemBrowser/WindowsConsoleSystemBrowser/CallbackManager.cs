@@ -30,13 +30,11 @@ namespace WindowsConsoleSystemBrowser
             }
         }
 
-        public async Task<string> RunServer(CancellationToken? token = null)
+        public async Task<string> RunServer(CancellationToken token = default(CancellationToken))
         {
-            token = CancellationToken.None;
-
             using (var server = new NamedPipeServerStream(_name, PipeDirection.In))
             {
-                await server.WaitForConnectionAsync(token.Value);
+                await server.WaitForConnectionAsync(token);
 
                 using (var sr = new StreamReader(server))
                 {
