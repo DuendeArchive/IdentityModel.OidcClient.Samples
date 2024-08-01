@@ -1,6 +1,8 @@
 ﻿using System;
 using System.IO;
 using System.IO.Pipes;
+using System.Security.AccessControl;
+using System.Security.Principal;
 using System.Threading.Tasks;
 
 namespace Wpf;
@@ -63,15 +65,25 @@ class CallbackManager
     // started by the callback redirect.
     public async Task<string> RunServer()
     {
-        using (var server = new NamedPipeServerStream(_name, PipeDirection.In))
-        {
-            await server.WaitForConnectionAsync();
+        var pipeSecurity = new PipeSecurity();
 
-            using (var sr = new StreamReader(server))
-            {
-                var msg = await sr.ReadToEndAsync();
-                return msg;
-            }
-        }
+        pipeSecurity.AddAccessRule(
+            new PipeAccessRule(
+                new SecurityIdentifier(
+                    WellKnownSidType.BuiltinUsersSid,
+                    null
+                ),
+                PipeAccessRights.ReadWrite,
+                AccessControlType.Allow
+            ));
+
+        using var server = NamedPipeServerStreamAcl.Create(_name, PipeDirection.In, 1, PipeTransmissionMode.Byte, PipeOptions.Asynchronous | PipeOptions.WriteThrough, default, default, pipeSecurity); 
+        
+        await server.WaitForConnectionAsync();
+
+        using var sr = new StreamReader(server);
+        var msg = await sr.ReadToEndAsync();
+        return msg;
+
     }
 }
