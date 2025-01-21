@@ -7,12 +7,31 @@
         Loaded="Window_Loaded"
         Title="MainWindow" Height="450" Width="800">
     <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="6*" />
+            <RowDefinition Height="1*" />
+            <RowDefinition Height="1*" />
+        </Grid.RowDefinitions>
         <TextBlock x:Name="txbMessage"
                    Text="Signing In..."
                    HorizontalAlignment="Center"
                    VerticalAlignment="Center"
                    FontSize="24"
                    FontFamily="Segoe UI Light, San Serif"
-                   TextWrapping="Wrap"/>
+                   TextWrapping="Wrap"
+                   Grid.Row="0"/>
+        
+        <Grid Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="2*" />
+                <ColumnDefinition Width="1*" />
+                <ColumnDefinition Width="2*" />
+            </Grid.ColumnDefinitions>
+            
+            <Button x:Name="btnLogout"
+                    Grid.Column="1"
+                    Visibility="Hidden"
+                    Click="BtnLogout_OnClick">Logout</Button>
+        </Grid>
     </Grid>
 </Window>
