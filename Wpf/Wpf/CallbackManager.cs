@@ -65,25 +65,11 @@ class CallbackManager
     // started by the callback redirect.
     public async Task<string> RunServer()
     {
-        var pipeSecurity = new PipeSecurity();
-
-        pipeSecurity.AddAccessRule(
-            new PipeAccessRule(
-                new SecurityIdentifier(
-                    WellKnownSidType.BuiltinUsersSid,
-                    null
-                ),
-                PipeAccessRights.ReadWrite,
-                AccessControlType.Allow
-            ));
-
-        using var server = NamedPipeServerStreamAcl.Create(_name, PipeDirection.In, 1, PipeTransmissionMode.Byte, PipeOptions.Asynchronous | PipeOptions.WriteThrough, default, default, pipeSecurity); 
-        
+        await using var server = new NamedPipeServerStream(_name, PipeDirection.In);
         await server.WaitForConnectionAsync();
 
         using var sr = new StreamReader(server);
         var msg = await sr.ReadToEndAsync();
         return msg;
-
     }
 }
