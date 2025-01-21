@@ -9,6 +9,19 @@ namespace WpfWebView2
     /// </summary>
     public partial class MainWindow : Window
     {
+        private readonly OidcClientOptions _options = new OidcClientOptions()
+        {
+            Authority = "https://demo.duendesoftware.com/",
+            ClientId = "interactive.public",
+            Scope = "openid profile email",
+            RedirectUri = "http://127.0.0.1/sample-wpf-app",
+            Browser = new WpfEmbeddedBrowser(),
+            Policy = new Policy
+            {
+                RequireIdentityTokenSignature = false
+            }
+        };
+        
         public MainWindow()
         {
             InitializeComponent();
@@ -16,25 +29,12 @@ namespace WpfWebView2
 
         private async void Window_Loaded(object sender, RoutedEventArgs e)
         {
-            var options = new OidcClientOptions()
-            {
-                Authority = "https://demo.duendesoftware.com/",
-                ClientId = "interactive.public",
-                Scope = "openid profile email",
-                RedirectUri = "http://127.0.0.1/sample-wpf-app",
-                Browser = new WpfEmbeddedBrowser(),
-                Policy = new Policy
-                {
-                    RequireIdentityTokenSignature = false
-                }
-            };
-
-            var _oidcClient = new OidcClient(options);
+            var oidcClient = new OidcClient(_options);
 
             LoginResult loginResult;
             try
             {
-                loginResult = await _oidcClient.LoginAsync();
+                loginResult = await oidcClient.LoginAsync();
             }
             catch (Exception exception)
             {
@@ -49,6 +49,33 @@ namespace WpfWebView2
             else
             {
                 txbMessage.Text = loginResult.User.Identity.Name;
+                btnLogout.Visibility = Visibility.Visible;
+            }
+        }
+
+        private async void BtnLogout_OnClick(object sender, RoutedEventArgs e)
+        {
+            var oidcClient = new OidcClient(_options);
+
+            LogoutResult logoutResult;
+            try
+            {
+                logoutResult = await oidcClient.LogoutAsync();
+            }
+            catch (Exception exception)
+            {
+                txbMessage.Text = $"Unexpected Error: {exception.Message}";
+                return;
+            }
+
+            if (logoutResult.IsError)
+            {
+                txbMessage.Text = logoutResult.Error;
+            }
+            else
+            {
+                txbMessage.Text = "Logged out.";
+                btnLogout.Visibility = Visibility.Collapsed;
             }
         }
     }
