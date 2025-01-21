@@ -19,7 +19,8 @@ You can login with `alice/alice` or `bob/bob`
 
 ## Additional samples
 
-* [Unity3D](https://github.com/peterhorsley/Unity3D.Authentication.Example)
+* [Unity3D/Unity3D.Authentication.Example](https://github.com/peterhorsley/Unity3D.Authentication.Example)
+* [Unity3D/UnityOidcClient](https://github.com/EversongWoods/UnityOidcClient)
 
 ## No longer maintained
 
