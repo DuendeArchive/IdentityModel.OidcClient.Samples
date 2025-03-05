@@ -1,5 +1,9 @@
 # Samples for IdentityModel.OidcClient
 
+> [!IMPORTANT]  
+> The samples are now maintained in Duende Software's [FOSS repository](https://github.com/DuendeSoftware/foss/tree/main/identity-model-oidc-client/samples).
+
+
 This repository contains samples that demonstrate how to use
 [IdentityModel.OidcClient](https://github.com/IdentityModel/IdentityModel) to create
 OpenId Connect client applications with a variety of platforms and tools, including
